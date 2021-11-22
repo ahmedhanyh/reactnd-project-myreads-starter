@@ -1,16 +1,21 @@
 import React, { Component } from "react";
+import Book from "./Book";
 
 class BooksGrid extends Component {
     render() {
 
-        const { books } = this.props;
+        const { books, shelfName } = this.props;
 
         return (
             <ol className="books-grid">
                 {
-                    books.map(book => (
-                        <Book title="" author="" coverURL="" />
-                    ))
+                    books.filter(book => book.shelf === shelfName)
+                        .map(book => (
+                            <Book
+                            book={book}
+                            shelfName={shelfName}
+                            onUpdateBookShelf={this.props.onUpdateBookShelf} />
+                        ))
                 }
             </ol>
         )

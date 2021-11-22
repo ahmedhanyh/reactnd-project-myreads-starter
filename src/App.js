@@ -6,19 +6,27 @@ import BookShelf from './BookShelf';
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
+    showSearchPage: false,
+    books: [],
   }
 
-  // componentDidMount() {
-  //   BooksAPI.getAll()
-  //   .then(books => console.log(books))
-  // }
+  componentDidMount() {
+    BooksAPI.getAll()
+    .then(books => {
+      this.setState({ books });
+      console.log(this.state.books);
+    })
+  }
+
+  updateBookShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+    .then(() => {
+      BooksAPI.getAll()
+      .then(books => {
+        this.setState({ books })
+      });
+    });;
+  }
 
   render() {
     return (
@@ -32,9 +40,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf title="Currently Reading" books={[]} />                
-                <BookShelf title="Want to Read" books={[]} />
-                <BookShelf title="Read" books={[]} />
+                <BookShelf title="Currently Reading" books={this.state.books} shelfName="currentlyReading" onUpdateBookShelf={this.updateBookShelf} />                
+                <BookShelf title="Want to Read" books={this.state.books} shelfName="wantToRead" onUpdateBookShelf={this.updateBookShelf} />
+                <BookShelf title="Read" books={this.state.books} shelfName="read" onUpdateBookShelf={this.updateBookShelf} />
               </div>
             </div>
             <div className="open-search">
