@@ -12,6 +12,7 @@ class BooksGrid extends Component {
                     books.filter(book => book.shelf === shelfName)
                         .map(book => (
                             <Book
+                            key={book.id}
                             book={book}
                             shelfName={shelfName}
                             onUpdateBookShelf={this.props.onUpdateBookShelf} />
