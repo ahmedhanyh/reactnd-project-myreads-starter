@@ -1,20 +1,28 @@
-import React, { Component } from "react";
+import React from "react";
 import BooksGrid from "./BooksGrid";
+import PropTypes from "prop-types";
 
-class BookShelf extends Component {
-    render() {
+const BookShelf = props => {
 
-        const { title, books, shelfName } = this.props;
+    const { shelfTitle, shelfTitleCamelCased, books, onUpdateBookShelf } = props;
 
-        return (
-            <div className="bookshelf">
-                <h2 className="bookshelf-title">{ title }</h2>
+    const filteredBooks = books.filter(book => book.shelf === shelfTitleCamelCased);
+
+    return (
+        <div className="bookshelf">
+                <h2 className="bookshelf-title">{ shelfTitle }</h2>
                 <div className="bookshelf-books">
-                    <BooksGrid books={books} shelfName={shelfName} onUpdateBookShelf={this.props.onUpdateBookShelf} />
+                <BooksGrid books={filteredBooks} onUpdateBookShelf={onUpdateBookShelf} />
                 </div>
             </div>
-        )
-    }
+    )
+}
+
+BookShelf.propTypes = {
+    shelfTitle: PropTypes.string.isRequired,
+    shelfTitleCamelCased: PropTypes.string.isRequired,
+    books: PropTypes.array.isRequired,
+    onUpdateBookShelf: PropTypes.func.isRequired,
 }
 
 export default BookShelf;
