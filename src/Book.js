@@ -6,6 +6,7 @@ class Book extends Component {
 
     static propTypes = {
         book: PropTypes.object.isRequired,
+        booksInShelves: PropTypes.array.isRequired,
     }
 
     updateBookShelf = shelf => {
@@ -13,8 +14,8 @@ class Book extends Component {
     }
 
     render() {
-        const { book } = this.props;
-        const { title, authors, imageLinks, shelf } = book;
+        const { book, booksInShelves } = this.props;
+        const { id, title, authors, imageLinks } = book;
 
         return (
             <li>
@@ -22,7 +23,7 @@ class Book extends Component {
                     <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: `url(${!imageLinks ? "./img/No_image.png" : imageLinks.thumbnail})` }}></div>
                     <div className="book-shelf-changer">
-                        <BookShelfChanger bookShelf={ !shelf ? "none" : shelf } onUpdateBookShelf={ this.updateBookShelf } />
+                        <BookShelfChanger id={ id } booksInShelves={booksInShelves} onUpdateBookShelf={ this.updateBookShelf } />
                     </div>
                     </div>
                     <div className="book-title">

@@ -7,33 +7,35 @@ import PropTypes from "prop-types";
 class SearchPage extends Component {
 
     static propTypes = {
+        booksInShelves: PropTypes.array.isRequired,
         onUpdateBookShelf: PropTypes.func.isRequired,
     }
     
     state = {
         query: '',
         results: [],
+        noResultsAvailable: false,
     }
 
     searchBooks = query => {
         BooksAPI.search(query)
         .then(results => {
-            for (let i = 0; i < results.length; i++) {
-                let resultID = results[i].id;
-                BooksAPI.get(resultID)
-                .then(book => results[i]["shelf"] = book.shelf)
+            if (!results || !Array.isArray(results) || results.length === 0) {
+                this.setState({ noResultsAvailable: true })
+            } else {
+                this.setState({ results, noResultsAvailable: false })
             }
-            this.setState({ results })
-        }).catch(error => console.log(error.name))
+        })
     }
 
     handleInputChange = event => {
-        this.setState({ query: event.target.value });
+        const { target } = event;
+        this.setState({ query: target.value.trim() });
         this.searchBooks(this.state.query);
     }
-    
+
     render() {
-        const { onUpdateBookShelf } = this.props;
+        const { booksInShelves, onUpdateBookShelf } = this.props;
 
         return (
             <div className="search-books">
@@ -44,7 +46,16 @@ class SearchPage extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
-                    <BooksGrid books={this.state.results} onUpdateBookShelf={onUpdateBookShelf} />
+                    {
+                        this.state.noResultsAvailable && (
+                            "There aren't any results that match your query."
+                        )
+                    }
+                    {
+                        !this.state.noResultsAvailable && (
+                            <BooksGrid books={this.state.results} booksInShelves={booksInShelves} onUpdateBookShelf={onUpdateBookShelf} />
+                        )
+                    }
                 </div>
           </div>
         )

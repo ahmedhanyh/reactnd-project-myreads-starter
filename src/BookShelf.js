@@ -12,7 +12,7 @@ const BookShelf = props => {
         <div className="bookshelf">
                 <h2 className="bookshelf-title">{ shelfTitle }</h2>
                 <div className="bookshelf-books">
-                <BooksGrid books={filteredBooks} onUpdateBookShelf={onUpdateBookShelf} />
+                <BooksGrid books={filteredBooks} booksInShelves={books} onUpdateBookShelf={onUpdateBookShelf} />
                 </div>
             </div>
     )

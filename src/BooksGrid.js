@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 
 const BooksGrid = props => {
 
-    const { books, onUpdateBookShelf } = props;
+    const { books, booksInShelves, onUpdateBookShelf } = props;
 
     return (
         <ol className="books-grid">
             {
                 books.map(book => (
-                    <Book key={book.id} book={book} onUpdateBookShelf={onUpdateBookShelf} />
+                    <Book key={book.id} book={book} booksInShelves={booksInShelves} onUpdateBookShelf={onUpdateBookShelf} />
                 ))
             }
         </ol>
@@ -19,6 +19,7 @@ const BooksGrid = props => {
 
 BooksGrid.propTypes = {
     books: PropTypes.array.isRequired,
+    booksInShelves: PropTypes.array.isRequired,
     onUpdateBookShelf: PropTypes.func.isRequired,
 }
 

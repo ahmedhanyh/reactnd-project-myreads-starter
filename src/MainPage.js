@@ -7,6 +7,7 @@ class MainPage extends Component {
 
     static propTypes = {
         books: PropTypes.array.isRequired,
+        onUpdateBookShelf: PropTypes.func.isRequired,
     }
 
     render() {
